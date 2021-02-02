@@ -35,9 +35,9 @@ func main() {
 
 	var err error
 
-	// Ganache NewtorkID / URL
-	chainId = big.NewInt(3)
-	client, err = ethclient.Dial("https://ropsten.infura.io/v3/6d6c0e875d6c4becaec0e1b10d5bc3cc")
+	// Rinkeby NewtorkID / URL
+	chainId = big.NewInt(4)
+	client, err = ethclient.Dial("https://rinkeby.infura.io/v3/6d6c0e875d6c4becaec0e1b10d5bc3cc")
 	if err != nil {
 		log.Fatalf("Could not connect to ethereum client %v", err)
 	}

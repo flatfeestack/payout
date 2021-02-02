@@ -175,7 +175,6 @@ contract Flatfeestack {
 
      /**
      * @dev Triggers a transfer of the assigned funds.
-     * total shares and their previous withdrawals.
      */
     function release() public virtual {
         require(balances[msg.sender] > 0, "PaymentSplitter: account has no balance");
