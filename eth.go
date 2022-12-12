@@ -93,7 +93,7 @@ func getEthClient(ethUrl string, hexPrivateKey string, deploy bool, ethContract 
 		log.Printf("Start deploying ETH Contract...")
 		var addr common.Address
 		c.contract, addr = deployEthContract(c, *parsed)
-		opts.Ethereum.Contract = addr.Hex()
+		opts.Ethereum.PayoutContract = addr.Hex()
 	} else {
 		c.contract = bind.NewBoundContract(common.HexToAddress(ethContract), *parsed, c.c, c.c, c.c)
 	}

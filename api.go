@@ -16,9 +16,12 @@ import (
 )
 
 type Config struct {
-	PayoutContractAddress string `json:"payoutContractAddress"`
-	ChainId               int64  `json:"chainId"`
-	Env                   string `json:"env"`
+	MembershipContractAddress string `json:"membershipContractAddress"`
+	DaaContractAddress        string `json:"daaContractAddress"`
+	WalletContractAddress     string `json:"walletContractAddress"`
+	PayoutContractAddress     string `json:"payoutContractAddress"`
+	ChainId                   int64  `json:"chainId"`
+	Env                       string `json:"env"`
 }
 
 type PayoutRequest2 struct {
@@ -107,9 +110,12 @@ func timeWarp(w http.ResponseWriter, r *http.Request, _ string) {
 
 func config(w http.ResponseWriter, _ *http.Request) {
 	cfg := Config{
-		PayoutContractAddress: opts.Ethereum.Contract,
-		ChainId:               ethClient.chainId.Int64(),
-		Env:                   opts.Env,
+		MembershipContractAddress: opts.Ethereum.MembershipContract,
+		DaaContractAddress:        opts.Ethereum.DaaContract,
+		WalletContractAddress:     opts.Ethereum.WalletContract,
+		PayoutContractAddress:     opts.Ethereum.PayoutContract,
+		ChainId:                   ethClient.chainId.Int64(),
+		Env:                       opts.Env,
 	}
 	writeJson(w, cfg)
 }
