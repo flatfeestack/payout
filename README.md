@@ -1,3 +1,6 @@
+# Archived Repository
+Code was transferred to monorepo: [flatfeestack/flatfeestack](https://github.com/flatfeestack/flatfeestack)
+
 # flatfeestack: pay-out
 
 Service for interacting with the different blockchains. Supported are: Ethereum (ETH), NEO3 (NEO) and Tezos (XTZ).
