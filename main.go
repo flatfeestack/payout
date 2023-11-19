@@ -28,19 +28,29 @@ type Timewarp struct {
 	Offset int `json:"offset"`
 }
 
-type Blockchain struct {
+type NeoBlockchain struct {
 	Contract   string
 	PrivateKey string
 	Url        string
 	Deploy     bool
 }
 
+type EthBlockchain struct {
+	DaaContract        string
+	MembershipContract string
+	WalletContract     string
+	PayoutContract     string
+	PrivateKey         string
+	Url                string
+	Deploy             bool
+}
+
 type Opts struct {
 	Port     int
 	Env      string
 	HS256    string
-	Ethereum Blockchain
-	NEO      Blockchain
+	Ethereum EthBlockchain
+	NEO      NeoBlockchain
 	Admins   string
 }
 
@@ -67,7 +77,10 @@ func NewOpts() *Opts {
 		9084), "listening HTTP port")
 	flag.StringVar(&o.HS256, "hs256", lookupEnv("HS256"), "HS256 key")
 	flag.StringVar(&o.Ethereum.PrivateKey, "eth-private-key", lookupEnv("ETH_PRIVATE_KEY"), "Ethereum private key")
-	flag.StringVar(&o.Ethereum.Contract, "eth-contract", lookupEnv("ETH_CONTRACT"), "Ethereum contract address")
+	flag.StringVar(&o.Ethereum.PayoutContract, "eth-payout-contract", lookupEnv("ETH_PAYOUT_CONTRACT"), "Ethereum payout contract address")
+	flag.StringVar(&o.Ethereum.WalletContract, "eth-wallet-contract", lookupEnv("ETH_WALLET_CONTRACT"), "Ethereum wallet contract address")
+	flag.StringVar(&o.Ethereum.MembershipContract, "eth-membership-contract", lookupEnv("ETH_MEMBERSHIP_CONTRACT"), "Ethereum membership contract address")
+	flag.StringVar(&o.Ethereum.DaaContract, "eth-dao-contract", lookupEnv("ETH_DAA_CONTRACT"), "Ethereum DAO contract address")
 	flag.StringVar(&o.Ethereum.Url, "eth-url", lookupEnv("ETH_URL"), "Ethereum URL")
 	flag.BoolVar(&o.Ethereum.Deploy, "eth-deploy", lookupEnv("ETH_DEPLOY") == "true", "Set to true to deploy ETH contract")
 	flag.StringVar(&o.NEO.PrivateKey, "neo-private-key", lookupEnv("NEO_PRIVATE_KEY"), "NEO private key")
@@ -139,10 +152,10 @@ func lookupEnvInt(key string, defaultValues ...int) int {
 
 func ethInit() *ClientETH {
 	now := time.Now()
-	ethClient, err := getEthClient(opts.Ethereum.Url, opts.Ethereum.PrivateKey, opts.Ethereum.Deploy, opts.Ethereum.Contract)
+	ethClient, err := getEthClient(opts.Ethereum.Url, opts.Ethereum.PrivateKey, opts.Ethereum.Deploy, opts.Ethereum.PayoutContract)
 	for err != nil && now.Add(time.Duration(10)*time.Second).After(time.Now()) {
 		time.Sleep(time.Second)
-		ethClient, err = getEthClient(opts.Ethereum.Url, opts.Ethereum.PrivateKey, opts.Ethereum.Deploy, opts.Ethereum.Contract)
+		ethClient, err = getEthClient(opts.Ethereum.Url, opts.Ethereum.PrivateKey, opts.Ethereum.Deploy, opts.Ethereum.PayoutContract)
 	}
 	if err != nil {
 		log.Fatal("Could not initialize ETH network", err)
